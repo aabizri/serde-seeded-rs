@@ -133,7 +133,7 @@ impl<'a> SeededImplGenerics<'a> {
 	}
 }
 
-impl<'a> ToTokens for SeededImplGenerics<'a> {
+impl ToTokens for SeededImplGenerics<'_> {
 	fn to_tokens(&self, tokens: &mut TokenStream) {
 		if self.generics.params.is_empty()
 			&& self.seed_params.is_empty()
@@ -273,7 +273,7 @@ impl<'a> SeededTypeGenerics<'a> {
 	}
 }
 
-impl<'a> ToTokens for SeededTypeGenerics<'a> {
+impl ToTokens for SeededTypeGenerics<'_> {
 	fn to_tokens(&self, tokens: &mut TokenStream) {
 		if self.generics.params.is_empty() && self.params.is_empty() && self.extra_params.is_empty()
 		{
@@ -372,7 +372,7 @@ impl<'a> ToTokens for SeededTypeGenerics<'a> {
 
 pub(crate) struct TokensOrDefault<'a, T: 'a>(pub &'a Option<T>);
 
-impl<'a, T> ToTokens for TokensOrDefault<'a, T>
+impl<T> ToTokens for TokensOrDefault<'_, T>
 where
 	T: ToTokens + Default,
 {
@@ -388,8 +388,6 @@ pub(crate) trait FilterAttrs<'a> {
 	type Ret: Iterator<Item = &'a syn::Attribute>;
 
 	fn outer(self) -> Self::Ret;
-	// #[cfg(feature = "full")]
-	// fn inner(self) -> Self::Ret;
 }
 
 impl<'a> FilterAttrs<'a> for &'a [syn::Attribute] {
@@ -405,17 +403,6 @@ impl<'a> FilterAttrs<'a> for &'a [syn::Attribute] {
 		}
 		self.iter().filter(is_outer)
 	}
-
-	// #[cfg(feature = "full")]
-	// fn inner(self) -> Self::Ret {
-	//     fn is_inner(attr: &&Attribute) -> bool {
-	//         match attr.style {
-	//             AttrStyle::Inner(_) => true,
-	//             AttrStyle::Outer => false,
-	//         }
-	//     }
-	//     self.iter().filter(is_inner)
-	// }
 }
 
 pub trait TryFilterMapExt: Sized + Iterator {

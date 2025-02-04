@@ -15,13 +15,13 @@ pub struct Seeded<'a, Q, T> {
 }
 
 impl<'a, Q, T> Seeded<'a, Q, T> {
-	///
+	/// Creates a new seeded value.
 	pub fn new(seed: &'a Q, value: T) -> Self {
 		Self { seed, value }
 	}
 }
 
-impl<'a, Q, T: Clone> Clone for Seeded<'a, Q, T> {
+impl<Q, T: Clone> Clone for Seeded<'_, Q, T> {
 	fn clone(&self) -> Self {
 		Self {
 			seed: self.seed,
@@ -30,9 +30,9 @@ impl<'a, Q, T: Clone> Clone for Seeded<'a, Q, T> {
 	}
 }
 
-impl<'a, Q, T: Copy> Copy for Seeded<'a, Q, T> {}
+impl<Q, T: Copy> Copy for Seeded<'_, Q, T> {}
 
-impl<'a, Q, T> Serialize for Seeded<'a, Q, T>
+impl<Q, T> Serialize for Seeded<'_, Q, T>
 where
 	T: SerializeSeeded<Q>,
 {
@@ -52,7 +52,7 @@ pub trait SerializeSeeded<Q> {
 		S: serde::Serializer;
 }
 
-impl<'a, Q, T> SerializeSeeded<Q> for &'a T
+impl<Q, T> SerializeSeeded<Q> for &T
 where
 	T: SerializeSeeded<Q>,
 {

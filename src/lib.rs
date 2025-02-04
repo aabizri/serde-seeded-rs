@@ -73,7 +73,7 @@ pub mod unseeded_btreemap_key {
 	{
 		struct Visitor<'seed, Q, K, V>(&'seed Q, PhantomData<BTreeMap<K, V>>);
 
-		impl<'de, 'seed, Q, K, V> ::serde::de::Visitor<'de> for Visitor<'seed, Q, K, V>
+		impl<'de, Q, K, V> ::serde::de::Visitor<'de> for Visitor<'_, Q, K, V>
 		where
 			K: Ord + Deserialize<'de>,
 			V: DeserializeSeeded<'de, Q>,
@@ -138,7 +138,7 @@ pub mod unseeded_hashmap_key {
 	{
 		struct Visitor<'seed, Q, K, V>(&'seed Q, PhantomData<HashMap<K, V>>);
 
-		impl<'de, 'seed, Q, K, V> ::serde::de::Visitor<'de> for Visitor<'seed, Q, K, V>
+		impl<'de, Q, K, V> ::serde::de::Visitor<'de> for Visitor<'_, Q, K, V>
 		where
 			K: Eq + Hash + Deserialize<'de>,
 			V: DeserializeSeeded<'de, Q>,

@@ -21,15 +21,15 @@ impl<'a, Q: ?Sized, T> Seed<'a, Q, T> {
 	}
 }
 
-impl<'a, Q: ?Sized, T> Clone for Seed<'a, Q, T> {
+impl<Q: ?Sized, T> Clone for Seed<'_, Q, T> {
 	fn clone(&self) -> Self {
 		*self
 	}
 }
 
-impl<'a, Q: ?Sized, T> Copy for Seed<'a, Q, T> {}
+impl<Q: ?Sized, T> Copy for Seed<'_, Q, T> {}
 
-impl<'de, 'a, Q, T> DeserializeSeed<'de> for Seed<'a, Q, T>
+impl<'de, Q, T> DeserializeSeed<'de> for Seed<'_, Q, T>
 where
 	Q: ?Sized,
 	T: DeserializeSeeded<'de, Q>,
@@ -76,7 +76,7 @@ where
 	{
 		struct Visitor<'seed, Q: ?Sized, T>(&'seed Q, PhantomData<T>);
 
-		impl<'de, 'seed, Q, T> serde::de::Visitor<'de> for Visitor<'seed, Q, T>
+		impl<'de, Q, T> serde::de::Visitor<'de> for Visitor<'_, Q, T>
 		where
 			Q: ?Sized,
 			T: DeserializeSeeded<'de, Q>,
@@ -153,7 +153,7 @@ where
 	{
 		struct Visitor<'a, Q: ?Sized, T>(Seed<'a, Q, T>);
 
-		impl<'de, 'a, Q, T> serde::de::Visitor<'de> for Visitor<'a, Q, T>
+		impl<'de, Q, T> serde::de::Visitor<'de> for Visitor<'_, Q, T>
 		where
 			Q: ?Sized,
 			T: DeserializeSeeded<'de, Q>,
@@ -194,7 +194,7 @@ where
 	{
 		struct Visitor<'a, Q: ?Sized, K, V>(Seed<'a, Q, K>, Seed<'a, Q, V>);
 
-		impl<'de, 'a, Q, K, V> serde::de::Visitor<'de> for Visitor<'a, Q, K, V>
+		impl<'de, Q, K, V> serde::de::Visitor<'de> for Visitor<'_, Q, K, V>
 		where
 			Q: ?Sized,
 			K: Ord + DeserializeSeeded<'de, Q>,
