@@ -1,0 +1,31 @@
+[package]
+name = "serde-seeded"
+authors.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+version.workspace = true
+license.workspace = true
+readme = "README.md"
+
+[workspace]
+members = [
+	"derive"
+]
+
+[workspace.package]
+authors = ["Timothée Haudebourg <timothee@haudebourg.net>"]
+edition = "2021"
+rust-version = "1.80.0"
+version = "0.1.0"
+license = "Apache-2.0 OR MIT"
+
+[workspace.dependencies]
+thiserror = "1.0.64"
+
+[features]
+default = ["derive"]
+derive = ["serde-seeded-derive"]
+
+[dependencies]
+serde = "1.0.210"
+serde-seeded-derive = { version = "0.1.0", path = "derive", optional = true }
