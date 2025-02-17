@@ -1,10 +1,16 @@
 [package]
 name = "serde-seeded"
+description = "Trait and macros for easy seeded serialization with `serde`."
+categories = ["encoding"]
+keywords = ["serde", "serialization", "seed", "seeded"]
 authors.workspace = true
 edition.workspace = true
 rust-version.workspace = true
 version.workspace = true
 license.workspace = true
+documentation.workspace = true
+homepage.workspace = true
+repository.workspace = true
 readme = "README.md"
 
 [workspace]
@@ -18,6 +24,9 @@ edition = "2021"
 rust-version = "1.80.1"
 version = "0.1.0"
 license = "Apache-2.0 OR MIT"
+documentation = "https://docs.rs/serde-seeded"
+homepage = "https://github.com/timothee-haudebourg/serde-seeded-rs"
+repository = "https://github.com/timothee-haudebourg/serde-seeded-rs"
 
 [workspace.dependencies]
 thiserror = "1.0.64"

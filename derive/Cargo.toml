@@ -1,10 +1,15 @@
 [package]
 name = "serde-seeded-derive"
+description = "Derive macro for `serde-seeded`."
+keywords = ["serde", "serialization", "seed", "seeded", "derive"]
 authors.workspace = true
 edition.workspace = true
 rust-version.workspace = true
 version.workspace = true
 license.workspace = true
+documentation.workspace = true
+homepage.workspace = true
+repository.workspace = true
 readme = "README.md"
 
 [lib]
