@@ -38,3 +38,6 @@ derive = ["serde-seeded-derive"]
 [dependencies]
 serde = "1.0.210"
 serde-seeded-derive = { version = "0.1.0", path = "derive", optional = true }
+
+[dev-dependencies]
+static_assertions = "1.1.0"
