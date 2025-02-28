@@ -51,3 +51,12 @@ pub enum Bar {
 	},
 }
 static_assertions::assert_impl_all!(Bar: SerializeSeeded<Seed>);
+
+#[derive(SerializeSeeded)]
+#[seeded(ser(seed(Seed)))]
+pub struct HybridStruct {
+	foo: Seeded<bool>,
+	bar: Seeded<u32>,
+	text: String,
+}
+static_assertions::assert_impl_all!(HybridStruct: SerializeSeeded<Seed>);
