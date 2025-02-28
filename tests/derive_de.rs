@@ -46,3 +46,23 @@ pub enum Bar {
 	Struct { foo: Seeded<u32>, bar: Seeded<bool> },
 }
 static_assertions::assert_impl_all!(Bar: DeserializeSeeded<'static, Seed>);
+
+struct Foo;
+
+impl<'de> serde::Deserialize<'de> for Foo {
+	fn deserialize<D>(_deserializer: D) -> Result<Self, D::Error>
+	where
+		D: serde::Deserializer<'de>,
+	{
+		unimplemented!()
+	}
+}
+
+#[derive(DeserializeSeeded)]
+#[seeded(de(seed(Seed)))]
+pub struct HybridStruct {
+	foo: Seeded<bool>,
+	bar: Seeded<u32>,
+	text: Foo,
+}
+static_assertions::assert_impl_all!(HybridStruct: DeserializeSeeded<'static, Seed>);
