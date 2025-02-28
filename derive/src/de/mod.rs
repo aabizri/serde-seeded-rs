@@ -210,7 +210,7 @@ fn deserialize_seed(
 				{
 					struct DeserializeWith #def_generics #where_clause {
 						seed: &'seed #seed_ty,
-						p: std::marker::PhantomData<(&'de (), #ident #target_generics)>
+						p: ::core::marker::PhantomData<(&'de (), #ident #target_generics)>
 					}
 
 					impl #impl_generics ::serde::de::DeserializeSeed<'de> for DeserializeWith #ty_generics #where_clause {
@@ -229,7 +229,7 @@ fn deserialize_seed(
 
 					DeserializeWith {
 						seed: self.seed,
-						p: std::marker::PhantomData::<(&'de (), #ident #target_generics)>
+						p: ::core::marker::PhantomData::<(&'de (), #ident #target_generics)>
 					}
 				}
 			})

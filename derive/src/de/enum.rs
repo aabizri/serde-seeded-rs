@@ -84,7 +84,7 @@ pub fn derive(
 		impl #impl_generics ::serde::de::Visitor<'de> for Visitor #ty_generics #where_clause {
 			type Value = #ident #value_generics;
 
-			fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+			fn expecting(&self, formatter: &mut ::core::fmt::Formatter) -> ::core::fmt::Result {
 				write!(formatter, "enum value")
 			}
 
@@ -101,7 +101,7 @@ pub fn derive(
 				impl<'de> ::serde::de::Visitor<'de> for DiscriminantVisitor {
 					type Value = Discriminant;
 
-					fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+					fn expecting(&self, formatter: &mut ::core::fmt::Formatter) -> ::core::fmt::Result {
 						write!(formatter, "variant identifier")
 					}
 
@@ -131,9 +131,10 @@ pub fn derive(
 					{
 						match v {
 							#(#cases_bytes,)*
-							_ => {
-								let v = String::from_utf8_lossy(v);
-								Err(::serde::de::Error::unknown_variant(&v, &VARIANTS))
+							// See https://github.com/serde-rs/serde/blob/e3eaa6a3dd6edd701476097182313cdbd73da78c/serde/src/de/impls.rs#L1664C33-L1667C34
+							_ => match str::from_utf8(v) {
+								Ok(v) => Err(::serde::de::Error::unknown_variant(v, &VARIANTS)),
+								Err(_) => Err(::serde::de::Error::invalid_value(::serde::de::Unexpected::Bytes(v), &self))
 							}
 						}
 					}

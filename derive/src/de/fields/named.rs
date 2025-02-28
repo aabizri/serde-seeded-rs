@@ -143,7 +143,7 @@ pub fn derive(
 
 			::serde::de::VariantAccess::struct_variant(variant, &FIELDS, StructVisitor {
 				seed: self.seed,
-				t: std::marker::PhantomData
+				t: ::core::marker::PhantomData
 			})
 		}
 	} else {
@@ -154,7 +154,7 @@ pub fn derive(
 
 			deserializer.deserialize_struct(#name, &FIELDS, StructVisitor {
 				seed,
-				t: std::marker::PhantomData
+				t: ::core::marker::PhantomData
 			})
 		}
 	};
@@ -166,13 +166,13 @@ pub fn derive(
 	Ok(quote! {
 		struct StructVisitor #def_generics {
 			seed: &'seed #seed_ty,
-			t: std::marker::PhantomData<#ident #value_generics>
+			t: ::core::marker::PhantomData<#ident #value_generics>
 		}
 
 		impl #impl_generics ::serde::de::Visitor<'de> for StructVisitor #ty_generics #where_clause {
 			type Value = #ident #value_generics;
 
-			fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+			fn expecting(&self, formatter: &mut ::core::fmt::Formatter) -> ::core::fmt::Result {
 				write!(formatter, "a struct")
 			}
 
@@ -194,7 +194,7 @@ pub fn derive(
 						impl<'de> ::serde::de::Visitor<'de> for Visitor {
 							type Value = Field__;
 
-							fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+							fn expecting(&self, formatter: &mut ::core::fmt::Formatter) -> ::core::fmt::Result {
 								write!(formatter, "field identifier")
 							}
 
@@ -224,9 +224,10 @@ pub fn derive(
 							{
 								match v {
 									#(#cases_bytes,)*
-									_ => {
-										let v = String::from_utf8_lossy(v);
-										Err(::serde::de::Error::unknown_variant(&v, &FIELDS))
+									// See https://github.com/serde-rs/serde/blob/e3eaa6a3dd6edd701476097182313cdbd73da78c/serde/src/de/impls.rs#L1664C33-L1667C34
+									_ => match str::from_utf8(v) {
+										Ok(v) => Err(::serde::de::Error::unknown_variant(v, &FIELDS)),
+										Err(_) => Err(::serde::de::Error::invalid_value(::serde::de::Unexpected::Bytes(v), &self))
 									}
 								}
 							}

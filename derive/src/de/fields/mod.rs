@@ -40,7 +40,7 @@ pub fn derive(
 					impl #visitor_impl_generics ::serde::de::Visitor<'de> for UnitVisitor #ty_generics #where_clause {
 						type Value = #ident #ty_generics;
 
-						fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+						fn expecting(&self, formatter: &mut ::core::fmt::Formatter) -> ::core::fmt::Result {
 							write!(formatter, "unit")
 						}
 
