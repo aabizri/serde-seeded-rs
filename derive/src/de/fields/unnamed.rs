@@ -45,7 +45,7 @@ pub fn derive(
 				impl #impl_generics ::serde::de::Visitor<'de> for NewtypeVisitor #ty_generics #where_clause {
 					type Value = #ident #value_generics;
 
-					fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+					fn expecting(&self, formatter: &mut ::core::fmt::Formatter) -> ::core::fmt::Result {
 						write!(formatter, "a newtype struct")
 					}
 
@@ -112,7 +112,7 @@ pub fn derive(
 			impl #impl_generics ::serde::de::Visitor<'de> for TupleVisitor #ty_generics #where_clause {
 				type Value = #ident #value_generics;
 
-				fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+				fn expecting(&self, formatter: &mut core::fmt::Formatter) -> ::core::fmt::Result {
 					write!(formatter, "a tuple")
 				}
 

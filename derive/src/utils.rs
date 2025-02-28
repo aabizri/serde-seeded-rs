@@ -61,7 +61,7 @@ macro_rules! seed_params {
 			}
 		}
 
-		impl std::ops::BitOr for SeedParam {
+		impl core::ops::BitOr for SeedParam {
 			type Output = SeedParams;
 
 			fn bitor(self, rhs: Self) -> Self::Output {
@@ -69,7 +69,7 @@ macro_rules! seed_params {
 			}
 		}
 
-		impl std::ops::BitOr<SeedParam> for SeedParams {
+		impl core::ops::BitOr<SeedParam> for SeedParams {
 			type Output = Self;
 
 			fn bitor(self, rhs: SeedParam) -> Self::Output {
@@ -78,13 +78,13 @@ macro_rules! seed_params {
 		}
 
 
-		impl std::ops::BitOrAssign<SeedParam> for SeedParams {
+		impl core::ops::BitOrAssign<SeedParam> for SeedParams {
 			fn bitor_assign(&mut self, rhs: SeedParam) {
 				*self |= SeedParams::from(rhs);
 			}
 		}
 
-		impl std::ops::BitOr for SeedParams {
+		impl core::ops::BitOr for SeedParams {
 			type Output = Self;
 
 			fn bitor(mut self, rhs: Self) -> Self::Output {
@@ -93,7 +93,7 @@ macro_rules! seed_params {
 			}
 		}
 
-		impl std::ops::BitOrAssign for SeedParams {
+		impl core::ops::BitOrAssign for SeedParams {
 			fn bitor_assign(&mut self, rhs: Self) {
 				$(self.$field |= rhs.$field;)*
 			}
@@ -392,7 +392,7 @@ pub(crate) trait FilterAttrs<'a> {
 
 impl<'a> FilterAttrs<'a> for &'a [syn::Attribute] {
 	type Ret =
-		std::iter::Filter<std::slice::Iter<'a, syn::Attribute>, fn(&&syn::Attribute) -> bool>;
+		core::iter::Filter<core::slice::Iter<'a, syn::Attribute>, fn(&&syn::Attribute) -> bool>;
 
 	fn outer(self) -> Self::Ret {
 		fn is_outer(attr: &&syn::Attribute) -> bool {
