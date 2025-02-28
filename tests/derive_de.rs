@@ -17,14 +17,17 @@ impl<'de, T> DeserializeSeeded<'de, Seed> for Seeded<T> {
 #[derive(DeserializeSeeded)]
 #[seeded(de(seed(Seed)))]
 pub struct Unit;
+static_assertions::assert_impl_all!(Unit: DeserializeSeeded<'static, Seed>);
 
 #[derive(DeserializeSeeded)]
 #[seeded(de(seed(Seed)))]
 pub struct Newtype(Seeded<u32>);
+static_assertions::assert_impl_all!(Newtype: DeserializeSeeded<'static, Seed>);
 
 #[derive(DeserializeSeeded)]
 #[seeded(de(seed(Seed)))]
 pub struct Tuple(Seeded<u32>, Seeded<bool>);
+static_assertions::assert_impl_all!(Tuple: DeserializeSeeded<'static, Seed>);
 
 #[derive(DeserializeSeeded)]
 #[seeded(de(seed(Seed)))]
@@ -32,6 +35,7 @@ pub struct Struct {
 	foo: Seeded<bool>,
 	bar: Seeded<u32>,
 }
+static_assertions::assert_impl_all!(Struct: DeserializeSeeded<'static, Seed>);
 
 #[derive(DeserializeSeeded)]
 #[seeded(de(seed(Seed)))]
@@ -41,3 +45,4 @@ pub enum Bar {
 	Tuple(Seeded<u32>, Seeded<bool>),
 	Struct { foo: Seeded<u32>, bar: Seeded<bool> },
 }
+static_assertions::assert_impl_all!(Bar: DeserializeSeeded<'static, Seed>);

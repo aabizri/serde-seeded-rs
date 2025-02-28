@@ -17,14 +17,17 @@ impl<'de, T> SerializeSeeded<Seed> for Seeded<T> {
 #[derive(SerializeSeeded)]
 #[seeded(ser(seed(Seed)))]
 pub struct Unit;
+static_assertions::assert_impl_all!(Unit: SerializeSeeded<Seed>);
 
 #[derive(SerializeSeeded)]
 #[seeded(ser(seed(Seed)))]
 pub struct Newtype(Seeded<u32>);
+static_assertions::assert_impl_all!(Newtype: SerializeSeeded<Seed>);
 
 #[derive(SerializeSeeded)]
 #[seeded(ser(seed(Seed)))]
 pub struct Tuple(Seeded<u32>, Seeded<bool>);
+static_assertions::assert_impl_all!(Tuple: SerializeSeeded<Seed>);
 
 #[derive(SerializeSeeded)]
 #[seeded(ser(seed(Seed)))]
@@ -32,6 +35,7 @@ pub struct Struct {
 	foo: Seeded<bool>,
 	bar: Seeded<u32>,
 }
+static_assertions::assert_impl_all!(Struct: SerializeSeeded<Seed>);
 
 #[derive(SerializeSeeded)]
 #[seeded(ser(seed(Seed)))]
@@ -45,3 +49,4 @@ pub enum Bar {
 		bar: Option<Seeded<bool>>,
 	},
 }
+static_assertions::assert_impl_all!(Bar: SerializeSeeded<Seed>);
